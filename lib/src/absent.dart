@@ -12,6 +12,12 @@ class _Absent<T> implements Optional<T> {
   bool get isPresent => false;
 
   @override
+  bool get isEmpty => true;
+
+  @override
+  bool get isFailure => false;
+
+  @override
   Optional<T> filter(bool Function(T) predicate) => empty.cast();
 
   @override

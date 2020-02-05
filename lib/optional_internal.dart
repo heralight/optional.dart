@@ -3,6 +3,7 @@ library optional_internal;
 import 'package:collection/collection.dart';
 
 part 'src/absent.dart';
+part 'src/failure.dart';
 part 'src/present.dart';
 part 'src/novaluepresent.dart';
 part 'src/extension.dart';
@@ -34,6 +35,20 @@ abstract class Optional<T> {
     }
   }
 
+  factory Optional.tryo(T Function() predicate) {
+    try {
+      return Optional.ofNullable(predicate());
+    } catch (e, s) {
+      var m = e.toString();
+
+      return Failure<T>(
+        message: m,
+        exception: Optional.ofNullable(e),
+        stackTrace: s.toOptional
+      );
+    }
+  }
+
   /// Creates an empty Optional.
   const factory Optional.empty() = _Absent<T>._internal;
 
@@ -44,6 +59,11 @@ abstract class Optional<T> {
 
   /// Whether the Optional has a value.
   bool get isPresent;
+
+  /// Whether the Optional has a value.
+  bool get isEmpty;
+
+  bool get isFailure;
 
   /// Returns an Optional with this Optional's value, if there is a value present and it matches the predicate.  Otherwise, returns an empty Optional.
   Optional<T> filter(bool Function(T) predicate);

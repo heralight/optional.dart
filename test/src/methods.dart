@@ -15,6 +15,8 @@ class MockConsumer<T> extends Mock implements Consumer<T> {}
 
 class MockMethod extends Mock implements Method {}
 
+T _cast<T>(x) => x is T ? x : null;
+
 void runMethodTests() {
   group('constructor', () {
     test('new Optional.of(<non-null>) returns normally', () {
@@ -26,6 +28,17 @@ void runMethodTests() {
     test('new Optional.ofNullable() never throws', () {
       expect(() => Optional.ofNullable(null), returnsNormally);
       expect(() => Optional.ofNullable(1), returnsNormally);
+    });
+    test('new Optional.try() never throws', () {
+      expect(
+          () => Optional.tryo(() => throw Exception("msg")), returnsNormally);
+      expect(Optional.tryo(() => throw Exception("msg")).isFailure, isTrue);
+      var r = Optional.tryo(() => throw Exception("msg"));
+      var f = _cast<Failure>(r);
+      expect(f.message, equals("Exception: msg"));
+      expect(Optional.tryo(() => true).isFailure, isFalse);
+      expect(Optional.tryo(() => true).value, isTrue);
+      //expect(Optional.tryo(() => true)., isFalse);
     });
     test('new Optional.empty() does not throw', () {
       expect(() => const Optional<dynamic>.empty(), returnsNormally);
@@ -43,6 +56,20 @@ void runMethodTests() {
     });
     test('when of(value) is true', () {
       expect(Optional.of(1).isPresent, isTrue);
+    });
+  });
+  group('isEmpty', () {
+    test('when empty is false', () {
+      expect(const Optional<dynamic>.empty().isEmpty, isTrue);
+    });
+    test('when ofNullable(null) is false', () {
+      expect(Optional.ofNullable(null).isEmpty, isTrue);
+    });
+    test('when ofNullable(<non-null>) is true', () {
+      expect(Optional.ofNullable(1).isEmpty, isFalse);
+    });
+    test('when of(value) is true', () {
+      expect(Optional.of(1).isEmpty, isFalse);
     });
   });
   group('value', () {
@@ -179,6 +206,34 @@ void runMethodTests() {
     });
     test('returns set with one value when present', () {
       expect(Optional.of(1).toSet().length, equals(1));
+    });
+    test('returns unmodifiable set', () {
+      expect(() => const Optional<int>.empty().toSet().add(1),
+          throwsA(const TypeMatcher<UnsupportedError>()));
+    });
+  });
+  group('isFailure', () {
+    test('returns true when Failure', () {
+      expect(Failure(message: "message").isFailure, isTrue);
+    });
+    test('returns true when ParamFailure', () {
+      expect(
+          ParamFailure(message: "message", param: "string").isFailure, isTrue);
+    });
+    test('returns true when ParamFailure', () {
+      expect(
+          ParamFailure(
+                  message: "message",
+                  param: "string sample",
+                  chain: Optional.of(Failure(message: "msg")))
+              .isFailure,
+          isTrue);
+    });
+    test('returns false when empty', () {
+      expect(empty.isFailure, isFalse);
+    });
+    test('returns false when some', () {
+      expect(Optional.of(1).isFailure, isFalse);
     });
     test('returns unmodifiable set', () {
       expect(() => const Optional<int>.empty().toSet().add(1),

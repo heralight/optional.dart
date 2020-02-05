@@ -2,4 +2,6 @@
 library optional;
 
 export 'optional_internal.dart'
-    show Optional, OptionalExtension, NoValuePresentError, empty;
+    show Optional, OptionalExtension, NoValuePresentError, empty, Failure, ParamFailure;
+
+export 'src/either.dart';

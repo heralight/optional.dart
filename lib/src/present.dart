@@ -12,6 +12,12 @@ class _Present<T> implements Optional<T> {
   bool get isPresent => true;
 
   @override
+  bool get isEmpty => false;
+
+  @override
+  bool get isFailure => false;
+
+  @override
   Optional<T> filter(bool Function(T) predicate) {
     if (predicate(_value)) {
       return this;
