@@ -28,7 +28,7 @@ class _Absent<T> implements Optional<T> {
   @override
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => empty.cast();
 
-    @override
+  @override
   Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper) => Future.value(empty.cast());
 
   @override
