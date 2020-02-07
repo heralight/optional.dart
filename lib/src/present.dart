@@ -34,6 +34,9 @@ class _Present<T> implements Optional<T> {
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => mapper(_value);
 
   @override
+  Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper) async => mapper(_value);
+
+  @override
   Optional<R> map<R>(R Function(T) mapper) =>
       Optional<R>.ofNullable(mapper(_value));
 

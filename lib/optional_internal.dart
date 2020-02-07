@@ -71,6 +71,9 @@ abstract class Optional<T> {
   /// Returns an Optional provided by applying the mapper to this Optional's value, if present.  Otherwise, returns an empty Optional.
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper);
 
+   /// Returns an Optional provided by applying the mapper to this Optional's value, if present.  Otherwise, returns an empty Optional.
+  Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper);
+
   // Applies onEmpty if this is a Empty or Failure or onPresent if this is a Present of T
   R fold<R>(R Function() onEmpty, R Function(T a) onPresent);
 
