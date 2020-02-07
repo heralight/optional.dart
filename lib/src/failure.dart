@@ -26,8 +26,8 @@ class Failure<T> extends _Absent<T> implements Optional<T> {
 /// that can allow an application to store other information related to the
 /// failure.
 ///
-class ParamFailure<T> extends Failure<T> {
-  final T param;
+class ParamFailure<T, R> extends Failure<T> {
+  final R param;
   ParamFailure(
       {String message,
       Optional<dynamic> exception,
