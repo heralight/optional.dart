@@ -35,7 +35,7 @@ void runMethodTests() {
       expect(Optional.tryo(() => throw Exception("msg")).isFailure, isTrue);
       var r = Optional.tryo(() => throw Exception("msg"));
       var f = _cast<Failure>(r);
-      expect(f.message, equals("Exception: msg".toOptional));
+      expect(f.message, equals("Exception: msg"));
       expect(Optional.tryo(() => true).isFailure, isFalse);
       expect(Optional.tryo(() => true).value, isTrue);
       //expect(Optional.tryo(() => true)., isFalse);
@@ -226,18 +226,18 @@ void runMethodTests() {
   });
   group('isFailure', () {
     test('returns true when Failure', () {
-      expect(Failure(message: "message".toOptional).isFailure, isTrue);
+      expect(Failure(message: "message").isFailure, isTrue);
     });
     test('returns true when ParamFailure', () {
       expect(
-          ParamFailure(message: "message".toOptional, param: "string".toOptional).isFailure, isTrue);
+          ParamFailure(message: "message", param: "string").isFailure, isTrue);
     });
     test('returns true when ParamFailure', () {
       expect(
           ParamFailure(
-                  message: "message".toOptional,
-                  param: "string sample".toOptional,
-                  chain: Optional.of(Failure(message: "msg".toOptional)))
+                  message: "message",
+                  param: "string sample",
+                  chain: Failure(message: "msg"))
               .isFailure,
           isTrue);
     });

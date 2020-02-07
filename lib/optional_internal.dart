@@ -42,9 +42,9 @@ abstract class Optional<T> {
       var m = e.toString();
 
       return Failure<T>(
-        message: m.toOptional,
-        exception: Optional.ofNullable(e),
-        stackTrace: s.toOptional
+        message: m,
+        exception: e,
+        stackTrace: s
       );
     }
   }

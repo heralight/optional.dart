@@ -2,10 +2,10 @@ part of optional_internal;
 
 /// Failure represent an error
 class Failure<T> extends _Absent<T> implements Optional<T> {
-  final Optional<String> message;
-  final Optional<dynamic> exception;
-  final Optional<StackTrace> stackTrace;
-  final Optional<Failure> chain;
+  final String message;
+  final dynamic exception;
+  final StackTrace stackTrace;
+  final Failure chain;
   Failure({this.message, this.exception, this.stackTrace, this.chain});
 
   @override
@@ -27,12 +27,12 @@ class Failure<T> extends _Absent<T> implements Optional<T> {
 /// failure.
 ///
 class ParamFailure<T, R> extends Failure<T> {
-  final Optional<R> param;
+  final R param;
   ParamFailure(
-      {Optional<String> message,
-      Optional<dynamic> exception,
-      Optional<StackTrace> stackTrace,
-      Optional<Failure> chain,
+      {String message,
+      dynamic exception,
+      StackTrace stackTrace,
+      Failure chain,
       this.param})
       : super(
             message: message,
