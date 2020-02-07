@@ -2,7 +2,7 @@ part of optional_internal;
 
 /// Failure represent an error
 class Failure<T> extends _Absent<T> implements Optional<T> {
-  final String message;
+  final Optional<String> message;
   final Optional<dynamic> exception;
   final Optional<StackTrace> stackTrace;
   final Optional<Failure> chain;
@@ -29,7 +29,7 @@ class Failure<T> extends _Absent<T> implements Optional<T> {
 class ParamFailure<T, R> extends Failure<T> {
   final R param;
   ParamFailure(
-      {String message,
+      {Optional<String> message,
       Optional<dynamic> exception,
       Optional<StackTrace> stackTrace,
       Optional<Failure> chain,
