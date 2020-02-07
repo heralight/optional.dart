@@ -21,18 +21,26 @@ class _Absent<T> implements Optional<T> {
   Optional<T> filter(bool Function(T) predicate) => empty.cast();
 
   @override
-  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) {
-    return onEmpty();
-  }
+  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) => onEmpty();
+
+  @override
+  Future<R> foldAsync<R>(
+          Future<R> Function() onEmpty, Future<R> Function(T a) onPresent) =>
+      onEmpty();
 
   @override
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => empty.cast();
 
   @override
-  Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper) => Future.value(empty.cast());
+  Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper) =>
+      Future.value(empty.cast());
 
   @override
   Optional<R> map<R>(R Function(T) mapper) => empty.cast();
+
+  @override
+  Future<Optional<R>> mapAsync<R>(Future<R> Function(T) mapper) =>
+      Future.value(empty.cast());
 
   @override
   bool contains(T val) => false;
@@ -67,8 +75,4 @@ class _Absent<T> implements Optional<T> {
 
   @override
   Optional<R> cast<R>() => _Absent<R>();
-
-
-
-
 }

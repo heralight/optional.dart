@@ -77,10 +77,18 @@ abstract class Optional<T> {
   // Applies onEmpty if this is a Empty or Failure or onPresent if this is a Present of T
   R fold<R>(R Function() onEmpty, R Function(T a) onPresent);
 
+    // Applies onEmpty if this is a Empty or Failure or onPresent if this is a Present of T
+  Future<R> foldAsync<R>(Future<R> Function() onEmpty, Future<R> Function(T a) onPresent);
+
   /// Returns an Optional containing the result of applying the mapper to this Optional's value, if present.  Otherwise, returns an empty Optional.
   ///
   /// If the mapper returns a null value, returns an empty Optional.
   Optional<R> map<R>(R Function(T) mapper);
+
+    /// Returns an Optional containing the result of applying the mapper to this Optional's value, if present.  Otherwise, returns an empty Optional.
+  ///
+  /// If the mapper returns a null value, returns an empty Optional.
+  Future<Optional<R>> mapAsync<R>(Future<R> Function(T) mapper);
 
   /// Whether the Optional contains the passed value.
   bool contains(T val);

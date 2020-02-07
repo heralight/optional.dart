@@ -27,18 +27,29 @@ class _Present<T> implements Optional<T> {
   }
 
   @override
-  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) {
-    return onPresent(_value);
-  }
+  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) =>
+      onPresent(_value);
+
+  @override
+  Future<R> foldAsync<R>(
+          Future<R> Function() onEmpty, Future<R> Function(T a) onPresent) =>
+      onPresent(_value);
+
   @override
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => mapper(_value);
 
   @override
-  Future<Optional<R>> flatMapAsync<R>(Future<Optional<R>> Function(T) mapper) async => mapper(_value);
+  Future<Optional<R>> flatMapAsync<R>(
+          Future<Optional<R>> Function(T) mapper) async =>
+      mapper(_value);
 
   @override
   Optional<R> map<R>(R Function(T) mapper) =>
       Optional<R>.ofNullable(mapper(_value));
+
+  @override
+  Future<Optional<R>> mapAsync<R>(Future<R> Function(T) mapper) async =>
+      Optional<R>.ofNullable(await mapper(_value));
 
   @override
   bool contains(T val) => _value == val;
