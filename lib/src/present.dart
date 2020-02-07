@@ -27,6 +27,10 @@ class _Present<T> implements Optional<T> {
   }
 
   @override
+  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) {
+    return onPresent(_value);
+  }
+  @override
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => mapper(_value);
 
   @override

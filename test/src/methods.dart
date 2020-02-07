@@ -35,7 +35,7 @@ void runMethodTests() {
       expect(Optional.tryo(() => throw Exception("msg")).isFailure, isTrue);
       var r = Optional.tryo(() => throw Exception("msg"));
       var f = _cast<Failure>(r);
-      expect(f.message, equals("Exception: msg"));
+      expect(f.message, equals("Exception: msg".toOptional));
       expect(Optional.tryo(() => true).isFailure, isFalse);
       expect(Optional.tryo(() => true).value, isTrue);
       //expect(Optional.tryo(() => true)., isFalse);
@@ -123,6 +123,18 @@ void runMethodTests() {
     test('map not empty optional and then use orElse', () {
       final o = Optional<int>.of(5).map((i) => 'i=$i').orElse('');
       expect(o, equals('i=5'));
+    });
+  });
+
+
+  group('fold', () {
+    test('fold when present returns result of map operation', () {
+      expect(Optional.of(1).fold(() => Optional.empty(), (n) => Optional.of(n + 1)),
+          equals(Optional.of(2)));
+    });
+    test('flat map when empty returns empty', () {
+      expect(const Optional<int>.empty().fold(() => Optional.empty(), (n) => Optional.of(n + 1)),
+          equals(const Optional<int>.empty()));
     });
   });
 
@@ -214,18 +226,18 @@ void runMethodTests() {
   });
   group('isFailure', () {
     test('returns true when Failure', () {
-      expect(Failure(message: "message").isFailure, isTrue);
+      expect(Failure(message: "message".toOptional).isFailure, isTrue);
     });
     test('returns true when ParamFailure', () {
       expect(
-          ParamFailure(message: "message", param: "string").isFailure, isTrue);
+          ParamFailure(message: "message".toOptional, param: "string".toOptional).isFailure, isTrue);
     });
     test('returns true when ParamFailure', () {
       expect(
           ParamFailure(
-                  message: "message",
-                  param: "string sample",
-                  chain: Optional.of(Failure(message: "msg")))
+                  message: "message".toOptional,
+                  param: "string sample".toOptional,
+                  chain: Optional.of(Failure(message: "msg".toOptional)))
               .isFailure,
           isTrue);
     });

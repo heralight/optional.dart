@@ -27,7 +27,7 @@ class Failure<T> extends _Absent<T> implements Optional<T> {
 /// failure.
 ///
 class ParamFailure<T, R> extends Failure<T> {
-  final R param;
+  final Optional<R> param;
   ParamFailure(
       {Optional<String> message,
       Optional<dynamic> exception,

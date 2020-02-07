@@ -21,6 +21,11 @@ class _Absent<T> implements Optional<T> {
   Optional<T> filter(bool Function(T) predicate) => empty.cast();
 
   @override
+  R fold<R>(R Function() onEmpty, R Function(T a) onPresent) {
+    return onEmpty();
+  }
+
+  @override
   Optional<R> flatMap<R>(Optional<R> Function(T) mapper) => empty.cast();
 
   @override
@@ -59,4 +64,6 @@ class _Absent<T> implements Optional<T> {
 
   @override
   Optional<R> cast<R>() => _Absent<R>();
+
+
 }
